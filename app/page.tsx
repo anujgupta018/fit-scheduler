@@ -224,9 +224,32 @@ export default function HomePage() {
                 </div>
               </div>
             </div>
+
+            <div
+              className="bg-gradient-to-br from-primary/10 to-primary/5 dark:from-primary/20 
+            dark:to-primary/10 rounded-2xl p-6 sm:p-8 text-center border border-primary/20"
+            >
+              <Dumbbell className="h-12 sm:h-16 w-12 sm:w-16 text-primary mx-auto mb-4" />
+              <h4 className="text-xl sm:text-2xl font-bold text-foreground mb-2">
+                Ready To Start?
+              </h4>
+              <p className="text-muted-foreground mb-6 text-sm sm:text-base">
+                Join Thousands of enthusiasts who plan their success.
+              </p>
+              <Link href="/scheduler">
+                <Button size={"lg"} className="rounded-2xl w-full sm:w-auto ">
+                  Plan Your First Week
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
       </section>
+
+      <footer className="container mx-auto px-4 py-8 text-center text-muted-foreground">
+        <p className="text-sm sm:text-base">Made with ❤️ by Anuj</p>
+      </footer>
     </div>
   );
 }
