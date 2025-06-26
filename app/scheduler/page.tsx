@@ -1,6 +1,10 @@
+"use client";
+
+import { DayCard } from "@/components/day-card";
 import Navbar from "@/components/navbar";
 import { Badge } from "@/components/ui/badge";
 import { Calendar } from "lucide-react";
+import { useEffect, useState } from "react";
 
 export interface exercise {
   id: string;
@@ -15,7 +19,7 @@ export interface TimeSlot {
   id: string;
   name: string;
   time: string;
-  exercies: exercise[];
+  exercises: exercise[];
 }
 
 export interface DayPlan {
@@ -23,7 +27,78 @@ export interface DayPlan {
   date: string;
   slots: TimeSlot[];
 }
+
+const daysofWeek = [
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+  "Sunday",
+];
+
+const defaultSlots = [
+  { id: "1", name: "Morning", time: "6:00 AM - 9:00 AM", exercises: [] },
+  { id: "2", name: "Afternoon", time: "12:00 PM - 3:00 PM", exercises: [] },
+  { id: "3", name: "Evening", time: "6:00 PM - 9:00 PM", exercises: [] },
+];
 export default function SchedulerPage() {
+  const [weekPlan, setWeekPlan] = useState<DayPlan[]>([]);
+  const [selectedDay, setSelectedDay] = useState<string | null>(null);
+  const [isSlotEditorOpen, setIsSlotEditorOpen] = useState(false);
+
+  useEffect(() => {
+    const savedPlan = localStorage.getItem("weekPlan");
+    if (savedPlan) {
+      setWeekPlan(JSON.parse(savedPlan));
+    } else {
+      const initialPlan = daysofWeek.map((day, index) => ({
+        day,
+        date: getDateForDay(index),
+        slots: defaultSlots.map((slot) => ({ ...slot, exercises: [] })),
+      }));
+      setWeekPlan(initialPlan);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (weekPlan.length > 0) {
+      localStorage.setItem("weekPlan", JSON.stringify(weekPlan));
+    }
+  }, [weekPlan]);
+
+  const getDateForDay = (dayIndex: number) => {
+    const today = new Date();
+    const monday = new Date(
+      today.setDate(today.getDate() - today.getDay() + 1)
+    );
+    const targetDate = new Date(monday);
+    targetDate.setDate(monday.getDate() + dayIndex);
+    return targetDate.toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+    });
+  };
+
+  function handleDayClick(day: string) {
+    setSelectedDay(day);
+    setIsSlotEditorOpen(true);
+  }
+  function updateDayPlan(day: string, updatedSlots: TimeSlot[]) {
+    setWeekPlan((prev) =>
+      prev.map((dayPlan) =>
+        dayPlan.day === day ? { ...dayPlan, slots: updatedSlots } : dayPlan
+      )
+    );
+  }
+  const selectedDayPlan = weekPlan.find((plan) => plan.day === selectedDay);
+  const totalExercises = weekPlan.reduce(
+    (total, day) =>
+      total +
+      day.slots.reduce((dayTotal, slot) => dayTotal + slot.exercises.length, 0),
+    0
+  );
   return (
     <div className="bg-grid min-h-screen">
       <Navbar />
@@ -43,10 +118,25 @@ export default function SchedulerPage() {
             <div className="flex items-center gap-4">
               <Badge variant={"secondary"} className="text-xs sm:text-sm">
                 <Calendar className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
-                Exercies Planned
+                {totalExercises} Exercies Planned
               </Badge>
             </div>
           </div>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-7 gap-3
+        sm:gap-4 mb-6 sm:mb-8">
+          {
+            weekPlan.map((dayPlan)=>
+            (
+              <DayCard
+                key={dayPlan.day}
+                dayPlan={dayPlan}
+                onClick={()=>handleDayClick(dayPlan.day)}
+                isSelected={selectedDay === dayPlan.day}
+              />
+            ))
+          }
         </div>
       </div>
     </div>
