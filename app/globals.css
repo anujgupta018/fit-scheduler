@@ -4,13 +4,32 @@
 @custom-variant dark (&:is(.dark *));
 
 .bg-grid {
-  background-image: linear-gradient(to right, rgba(0, 120, 255, 0.1) 1px, transparent 1px),
-                    linear-gradient(to bottom, rgba(0, 120, 255, 0.1) 1px, transparent 1px);
+  background-image: linear-gradient(
+      to right,
+      rgba(0, 120, 255, 0.1) 1px,
+      transparent 1px
+    ),
+    linear-gradient(to bottom, rgba(0, 120, 255, 0.1) 1px, transparent 1px);
   background-size: 24px 24px;
 }
+html.lenis,
+html.lenis body {
+  height: auto;
+}
 
+.lenis.lenis-smooth {
+  scroll-behavior: auto;
+}
+
+.lenis.lenis-smooth [data-lenis-scroll-container] {
+  will-change: transform;
+}
 .bg-radial-glow {
-  background-image: radial-gradient(circle at top left, rgba(0, 102, 255, 0.2), transparent 60%);
+  background-image: radial-gradient(
+    circle at top left,
+    rgba(0, 102, 255, 0.2),
+    transparent 60%
+  );
 }
 @theme inline {
   --color-background: var(--background);

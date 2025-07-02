@@ -1,5 +1,7 @@
+"use client";
 import Navbar from "@/components/navbar";
 import { Button } from "@/components/ui/button";
+import { motion } from "framer-motion";
 import {
   Card,
   CardContent,
@@ -33,14 +35,31 @@ export default function HomePage() {
             Transform your Fitness Journey
           </div>
 
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-foreground mb-6 leading-tight">
+          <motion.h1
+            initial={{ opacity: 0, y: 60 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="text-4xl sm:text-5xl md:text-6xl font-bold text-foreground mb-6 leading-tight"
+          >
             Plan Your Perfect{" "}
-            <span className="text-primary block">Workout week</span>
-          </h1>
-          <p className="text-lg sm:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed">
+            <motion.span
+              initial={{ opacity: 0, y: 80 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.9, ease: "easeOut", delay: 0.2 }}
+              className="text-blue-900 dark:text-blue-700 block"
+            >
+              Workout Week
+            </motion.span>
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 100 }}
+            animate={{ opacity: 2, y: 0 }}
+            transition={{ duration: 0.9, ease: "easeOut", delay: 0.5 }}
+            className="text-lg sm:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed"
+          >
             Take control of your fitness with our intelligent workout scheduler.
             Plan, track and optimize your weekly training routine with ease.
-          </p>
+          </motion.p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Link href={"/scheduler"}>
