@@ -52,6 +52,42 @@ export function DayCard({ dayPlan, onClick, isSelected }: DayCardProps) {
             </div>
           </div>
         </div>
+
+        {totalExercises > 0 ? (
+          <div className="space-y-1">
+            {dayPlan.slots
+              .filter((slot) => slot.exercises.length > 0)
+              .slice(0, 2)
+              .map((slot) => (
+                <div
+                  key={slot.id}
+                  className="text-xs text-muted-foreground bg-muted/50 rounded px-2 py-1"
+                >
+                  {slot.name} : {slot.exercises.length} exercise
+                  {slot.exercises.length !== 1 ? "s" : " "}
+                </div>
+              ))}
+            {dayPlan.slots.filter((slot) => slot.exercises.length > 0).length >
+              2 && (
+              <div className="text-muted-foreground/70 text-xs">
+                +
+                {dayPlan.slots.filter((slot) => slot.exercises.length > 0)
+                  .length - 2}{" "}
+                more session
+                {dayPlan.slots.filter((slot) => slot.exercises.length > 0)
+                  .length -
+                  2 !==
+                1
+                  ? "s"
+                  : ""}
+              </div>
+            )}
+          </div>
+        ) : (
+          <div className="text-xs text-muted-foreground/70 italic">
+            No Workouts Planned!!
+          </div>
+        )}
       </CardContent>
     </Card>
   );
