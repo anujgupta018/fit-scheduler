@@ -2,6 +2,7 @@
 
 import { DayCard } from "@/components/day-card";
 import Navbar from "@/components/navbar";
+import { SlotEditor } from "@/components/slot-editor";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Calendar, Clock } from "lucide-react";
@@ -51,16 +52,46 @@ export default function SchedulerPage() {
 
   useEffect(() => {
     const savedPlan = localStorage.getItem("weekPlan");
+
+    const getThisMonday = () => {
+      const today = new Date();
+      const monday = new Date(
+        today.setDate(today.getDate() - today.getDay() + 1)
+      );
+      return monday.toDateString();
+    };
+
     if (savedPlan) {
-      setWeekPlan(JSON.parse(savedPlan));
-    } else {
-      const initialPlan = daysofWeek.map((day, index) => ({
-        day,
-        date: getDateForDay(index),
-        slots: defaultSlots.map((slot) => ({ ...slot, exercises: [] })),
-      }));
-      setWeekPlan(initialPlan);
+      const parsedPlan = JSON.parse(savedPlan);
+
+      const savedMonday = parsedPlan[0]?.weekStart || null;
+      const currentMonday = getThisMonday();
+
+      if (savedMonday === currentMonday) {
+        setWeekPlan(parsedPlan);
+        return;
+      }
     }
+    const thisMonday = new Date();
+    thisMonday.setDate(thisMonday.getDate() - thisMonday.getDay() + 1);
+    const weekStartStr = thisMonday.toDateString();
+
+    const initialPlan = daysofWeek.map((day, index) => {
+      const targetDate = new Date(thisMonday);
+      targetDate.setDate(thisMonday.getDate() + index);
+
+      return {
+        day,
+        date: targetDate.toLocaleDateString("en-US", {
+          month: "short",
+          day: "numeric",
+        }),
+        weekStart: weekStartStr, // save for weekly reset logic
+        slots: defaultSlots.map((slot) => ({ ...slot, exercises: [] })),
+      };
+    });
+
+    setWeekPlan(initialPlan);
   }, []);
 
   useEffect(() => {
@@ -202,6 +233,17 @@ export default function SchedulerPage() {
             </div>
           </CardContent>
         </Card>
+
+        {selectedDayPlan && (
+          <SlotEditor
+            isOpen={isSlotEditorOpen}
+            onClose={() => setIsSlotEditorOpen(false)}
+            dayPlan={selectedDayPlan}
+            onUpdate={(updatedSlots) =>
+              updateDayPlan(selectedDay!, updatedSlots)
+            }
+          />
+        )}
       </div>
     </div>
   );
