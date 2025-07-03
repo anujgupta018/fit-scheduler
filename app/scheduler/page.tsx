@@ -14,7 +14,7 @@ export interface exercise {
   sets: string;
   reps: string;
   notes: string;
-  image: string;
+
 }
 
 export interface TimeSlot {
