@@ -6,6 +6,7 @@ import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
+import { ExerciseCard } from "./exercise-card";
 
 interface SlotEditorProps {
   isOpen: boolean;
@@ -39,7 +40,7 @@ export function SlotEditor({
   }
 
   function deleteSlot(slotId: string) {
-    setSlots((prev) => prev.filter((slot) => slot.id !== slotId));
+    setSlots((prev) => prev.filter((slot) => slotId !== slot.id));
   }
 
   function handleSave() {
@@ -91,7 +92,12 @@ export function SlotEditor({
                   </div>
                 </div>
               </CardHeader>
-              <CardContent></CardContent>
+              <CardContent>
+                <ExerciseCard
+                  slot={slot}
+                  onUpdate={(updatedSlot) => updateSlot(slot.id, updatedSlot)}
+                />
+              </CardContent>
             </Card>
           ))}
 
@@ -113,8 +119,11 @@ export function SlotEditor({
               >
                 Cancel
               </Button>
-              <Button onClick={handleSave} className="flex items-center gap-2 flex-1 sm:flex-none">
-                <Save className="h-4 w-4"/>
+              <Button
+                onClick={handleSave}
+                className="flex items-center gap-2 flex-1 sm:flex-none"
+              >
+                <Save className="h-4 w-4" />
                 Save Changes
               </Button>
             </div>
