@@ -244,9 +244,13 @@ export default function HomePage() {
               </div>
             </div>
 
-            <div
+            <motion.div
+              initial={{ opacity: 0, y: -50, scale: 0.5 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ duration: 0.5, delay: 6 }}
               className="bg-gradient-to-br from-primary/10 to-primary/5 dark:from-primary/20 
-            dark:to-primary/10 rounded-2xl p-6 sm:p-8 text-center border border-primary/20"
+            dark:to-primary/10 rounded-2xl p-6 sm:p-8 text-center border border-primary/20 
+            hover:scale-105 overflow-hidden"
             >
               <Dumbbell className="h-12 sm:h-16 w-12 sm:w-16 text-primary mx-auto mb-4" />
               <h4 className="text-xl sm:text-2xl font-bold text-foreground mb-2">
@@ -261,7 +265,7 @@ export default function HomePage() {
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </Link>
-            </div>
+            </motion.div>
           </div>
         </div>
       </section>

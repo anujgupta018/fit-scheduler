@@ -100,18 +100,18 @@ export default function SchedulerPage() {
     }
   }, [weekPlan]);
 
-  const getDateForDay = (dayIndex: number) => {
-    const today = new Date();
-    const monday = new Date(
-      today.setDate(today.getDate() - today.getDay() + 1)
-    );
-    const targetDate = new Date(monday);
-    targetDate.setDate(monday.getDate() + dayIndex);
-    return targetDate.toLocaleDateString("en-US", {
-      month: "short",
-      day: "numeric",
-    });
-  };
+  // const getDateForDay = (dayIndex: number) => {
+  //   const today = new Date();
+  //   const monday = new Date(
+  //     today.setDate(today.getDate() - today.getDay() + 1)
+  //   );
+  //   const targetDate = new Date(monday);
+  //   targetDate.setDate(monday.getDate() + dayIndex);
+  //   return targetDate.toLocaleDateString("en-US", {
+  //     month: "short",
+  //     day: "numeric",
+  //   });
+  // };
 
   function handleDayClick(day: string) {
     setSelectedDay(day);
