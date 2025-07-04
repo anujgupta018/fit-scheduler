@@ -247,7 +247,7 @@ export default function HomePage() {
             <motion.div
               initial={{ opacity: 0, y: -50, scale: 0.5 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{ duration: 0.5, delay: 6 }}
+              transition={{ duration: 0.5, delay: 1 }}
               className="bg-gradient-to-br from-primary/10 to-primary/5 dark:from-primary/20 
             dark:to-primary/10 rounded-2xl p-6 sm:p-8 text-center border border-primary/20 
             hover:scale-105 overflow-hidden"
